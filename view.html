@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>عرض البيانات</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h2>بياناتك</h2>
+
+    <div id="dataList"></div>
+
+    <nav>
+        <a href="dashboard.html">Dashboard</a> |
+        <a href="add.html">إضافة بيانات</a> |
+        <a href="#" id="logout">تسجيل الخروج</a>
+    </nav>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <script src="app.js"></script>
+    <script>
+        auth.onAuthStateChanged((user) => {
+            if (!user) {
+                window.location = "index.html";
+            } else {
+                const userId = user.uid;
+                const dataRef = database.ref('data/' + userId);
+
+                dataRef.on('value', (snapshot) => {
+                    const dataList = document.getElementById('dataList');
+                    dataList.innerHTML = ''; // مسح القديم
+                    const data = snapshot.val();
+                    if (data) {
+                        Object.keys(data).forEach(key => {
+                            const item = data[key];
+                            const div = document.createElement('div');
+                            div.innerHTML = `<h3>${item.title}</h3><p>${item.content}</p><small>${new Date(item.timestamp).toLocaleString()}</small><hr>`;
+                            dataList.appendChild(div);
+                        });
+                    } else {
+                        dataList.innerHTML = '<p>لا توجد بيانات حالياً.</p>';
+                    }
+                });
+            }
+        });
+
+        // تسجيل الخروج
+        document.getElementById('logout').addEventListener('click', () => {
+            auth.signOut().then(() => {
+                window.location = "index.html";
+            });
+        });
+    </script>
+</body>
+</html>

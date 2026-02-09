@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>إضافة بيانات</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h2>إضافة بيانات جديدة</h2>
+
+    <form id="addForm">
+        <input type="text" id="title" placeholder="عنوان البيانات" required><br><br>
+        <textarea id="content" placeholder="محتوى البيانات" required></textarea><br><br>
+        <button type="submit">إضافة</button>
+    </form>
+
+    <nav>
+        <a href="dashboard.html">Dashboard</a> |
+        <a href="view.html">عرض البيانات</a> |
+        <a href="#" id="logout">تسجيل الخروج</a>
+    </nav>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <script src="app.js"></script>
+    <script>
+        // التحقق من تسجيل الدخول
+        auth.onAuthStateChanged((user) => {
+            if (!user) {
+                window.location = "index.html";
+            }
+        });
+
+        const addForm = document.getElementById('addForm');
+
+        addForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const title = document.getElementById('title').value;
+            const content = document.getElementById('content').value;
+            const userId = auth.currentUser.uid;
+
+            // إضافة البيانات إلى Realtime Database تحت كل مستخدم
+            const newDataKey = database.ref().child('data').push().key;
+            const updates = {};
+            updates['/data/' + userId + '/' + newDataKey] = {
+                title: title,
+                content: content,
+                timestamp: Date.now()
+            };
+            database.ref().update(updates)
+            .then(() => {
+                alert('تمت إضافة البيانات بنجاح!');
+                addForm.reset();
+            })
+            .catch((error) => {
+                alert(error.message);
+            });
+        });
+
+        // تسجيل الخروج
+        document.getElementById('logout').addEventListener('click', () => {
+            auth.signOut().then(() => {
+                window.location = "index.html";
+            });
+        });
+    </script>
+</body>
+</html>

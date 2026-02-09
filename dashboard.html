@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h2>مرحبًا بك في لوحة التحكم</h2>
+    <div id="userInfo"></div>
+
+    <nav>
+        <a href="add.html">إضافة بيانات</a> |
+        <a href="view.html">عرض البيانات</a> |
+        <a href="about.html">عن الموقع</a> |
+        <a href="#" id="logout">تسجيل الخروج</a>
+    </nav>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <script src="app.js"></script>
+    <script>
+        // التحقق من تسجيل الدخول
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // جلب بيانات المستخدم من Realtime Database
+                database.ref('users/' + user.uid).once('value')
+                .then((snapshot) => {
+                    const data = snapshot.val();
+                    document.getElementById('userInfo').innerHTML =
+                        `<p>الاسم: ${data.name}</p><p>البريد الإلكتروني: ${data.email}</p>`;
+                });
+            } else {
+                // إذا لم يسجل المستخدم الدخول → إعادة التوجيه إلى login
+                window.location = "index.html";
+            }
+        });
+
+        // تسجيل الخروج
+        document.getElementById('logout').addEventListener('click', () => {
+            auth.signOut().then(() => {
+                window.location = "index.html";
+            });
+        });
+    </script>
+</body>
+</html>

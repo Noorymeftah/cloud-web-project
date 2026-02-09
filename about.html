@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>عن الموقع</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h2>عن الموقع</h2>
+    <p>هذا الموقع تم إنشاؤه كمشروع تعليمي لمادة الحوسبة السحابية. يتيح للمستخدمين:</p>
+    <ul>
+        <li>إنشاء حساب وتسجيل الدخول</li>
+        <li>إضافة البيانات الشخصية أو الدراسية</li>
+        <li>عرض بياناتهم الخاصة بشكل آمن</li>
+        <li>التعلم على استخدام Firebase Authentication وRealtime Database</li>
+    </ul>
+
+    <nav>
+        <a href="dashboard.html">Dashboard</a> |
+        <a href="add.html">إضافة بيانات</a> |
+        <a href="view.html">عرض البيانات</a> |
+        <a href="#" id="logout">تسجيل الخروج</a>
+    </nav>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <script src="app.js"></script>
+    <script>
+        auth.onAuthStateChanged((user) => {
+            if (!user) {
+                window.location = "index.html";
+            }
+        });
+
+        document.getElementById('logout').addEventListener('click', () => {
+            auth.signOut().then(() => {
+                window.location = "index.html";
+            });
+        });
+    </script>
+</body>
+</html>

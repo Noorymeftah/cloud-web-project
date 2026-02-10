@@ -1,0 +1,4 @@
+firebase login
+cd F:\NOORY\cloud-web-project
+firebase init
+firebase deploy

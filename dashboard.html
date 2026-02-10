@@ -16,34 +16,25 @@
         <a href="#" id="logout">تسجيل الخروج</a>
     </nav>
 
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script type="module">
+        import { auth, logout, getData } from './app.js';
 
-    <script src="app.js"></script>
-    <script>
-        // التحقق من تسجيل الدخول
+        const userInfo = document.getElementById('userInfo');
+
         auth.onAuthStateChanged((user) => {
             if (user) {
-                // جلب بيانات المستخدم من Realtime Database
-                database.ref('users/' + user.uid).once('value')
-                .then((snapshot) => {
-                    const data = snapshot.val();
-                    document.getElementById('userInfo').innerHTML =
-                        `<p>الاسم: ${data.name}</p><p>البريد الإلكتروني: ${data.email}</p>`;
+                getData('users/' + user.uid, (data) => {
+                    if (data) {
+                        userInfo.innerHTML = `<p>الاسم: ${data.name}</p><p>البريد الإلكتروني: ${data.email}</p>`;
+                    }
                 });
             } else {
-                // إذا لم يسجل المستخدم الدخول → إعادة التوجيه إلى login
-                window.location = "index.html";
+                window.location.href = "index.html";
             }
         });
 
-        // تسجيل الخروج
         document.getElementById('logout').addEventListener('click', () => {
-            auth.signOut().then(() => {
-                window.location = "index.html";
-            });
+            logout();
         });
     </script>
 </body>

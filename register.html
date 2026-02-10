@@ -15,35 +15,23 @@
     </form>
     <p>لديك حساب؟ <a href="index.html">تسجيل الدخول</a></p>
 
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script type="module">
+        import { registerUser } from './app.js';
 
-    <script src="app.js"></script>
-    <script>
         const registerForm = document.getElementById('registerForm');
-
-        registerForm.addEventListener('submit', (e) => {
+        registerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            auth.createUserWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                // إضافة بيانات المستخدم إلى Realtime Database
-                database.ref('users/' + user.uid).set({
-                    name: name,
-                    email: email
-                });
+            try {
+                await registerUser(name, email, password);
                 alert('تم إنشاء الحساب بنجاح!');
-                window.location = "dashboard.html";
-            })
-            .catch((error) => {
+                window.location.href = "dashboard.html";
+            } catch (error) {
                 alert(error.message);
-            });
+            }
         });
     </script>
 </body>

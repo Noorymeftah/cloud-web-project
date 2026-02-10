@@ -7,7 +7,6 @@
 </head>
 <body>
     <h2>بياناتك</h2>
-
     <div id="dataList"></div>
 
     <nav>
@@ -16,24 +15,16 @@
         <a href="#" id="logout">تسجيل الخروج</a>
     </nav>
 
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script type="module">
+        import { auth, logout, getData } from './app.js';
 
-    <script src="app.js"></script>
-    <script>
         auth.onAuthStateChanged((user) => {
             if (!user) {
-                window.location = "index.html";
+                window.location.href = "index.html";
             } else {
-                const userId = user.uid;
-                const dataRef = database.ref('data/' + userId);
-
-                dataRef.on('value', (snapshot) => {
+                getData('data/' + user.uid, (data) => {
                     const dataList = document.getElementById('dataList');
-                    dataList.innerHTML = ''; // مسح القديم
-                    const data = snapshot.val();
+                    dataList.innerHTML = '';
                     if (data) {
                         Object.keys(data).forEach(key => {
                             const item = data[key];
@@ -48,11 +39,8 @@
             }
         });
 
-        // تسجيل الخروج
         document.getElementById('logout').addEventListener('click', () => {
-            auth.signOut().then(() => {
-                window.location = "index.html";
-            });
+            logout();
         });
     </script>
 </body>

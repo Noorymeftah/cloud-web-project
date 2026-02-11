@@ -6,35 +6,38 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5;
+            background-color: #f4f7f9;
             color: #333;
             direction: rtl;
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 40px 20px;
-            margin: 0;
         }
 
         h2 {
-            color: #1a73e8;
-            border-bottom: 2px solid #1a73e8;
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
             padding-bottom: 10px;
         }
 
         p {
-            font-size: 1.1rem;
-            max-width: 600px;
+            font-size: 1.1em;
+            max-width: 700px;
             text-align: center;
+            color: #555;
         }
 
         ul {
-            background: white;
+            background: #ffffff;
             padding: 25px 50px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             list-style: none;
             width: fit-content;
+            margin: 20px 0;
         }
 
         ul li {
@@ -43,37 +46,37 @@
         }
 
         ul li::before {
-            content: "✦";
-            color: #1a73e8;
-            margin-left: 10px;
+            content: "•";
+            color: #3498db;
+            font-weight: bold;
+            display: inline-block; 
+            width: 1em;
+            margin-right: -1em;
         }
 
         nav {
             margin-top: 30px;
-            background: #fff;
-            padding: 15px 25px;
-            border-radius: 30px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background: #2c3e50;
+            padding: 12px 25px;
+            border-radius: 8px;
+            color: #fff;
         }
 
         nav a {
-            color: #5f6368;
+            color: #ffffff;
             text-decoration: none;
             margin: 0 10px;
-            font-weight: 600;
+            font-weight: 500;
             transition: 0.3s;
         }
 
         nav a:hover {
-            color: #1a73e8;
+            color: #3498db;
         }
 
         #logout {
-            color: #d93025;
-        }
-
-        #logout:hover {
-            color: #a50e0e;
+            color: #ff7675;
+            cursor: pointer;
         }
     </style>
 </head>

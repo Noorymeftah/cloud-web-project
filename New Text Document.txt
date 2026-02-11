@@ -2,3 +2,34 @@ firebase login
 cd F:\NOORY\cloud-web-project
 firebase init
 firebase deploy
+
+
+https://cloud-web-project.web.app
+
+https://console.firebase.google.com/project/cloud-web-project/overview
+
+https://github.com/Noorymeftah/cloud-web-project
+
+cloud-web-project/
+│
+├─ index.html       ← صفحة تسجيل الدخول
+├─ register.html    ← صفحة إنشاء مستخدم جديد
+├─ dashboard.html   ← الصفحة الرئيسية بعد تسجيل الدخول
+├─ add.html         ← إضافة بيانات
+├─ view.html        ← عرض البيانات
+├─ about.html       ← معلومات عن الموقع (اختياري)
+├─ style.css        ← تنسيق CSS مشترك لكل الصفحات
+└─ app.js           ← ربط Firebase + أكواد JavaScript العامة
+
+
+git add .
+git commit -m "Full project with login, register, dashboard, add/view pages"
+git push
+
+firebase deploy
+
+https://noorymeftah.github.io/cloud-web-project/
+
+
+Project Console: https://console.firebase.google.com/project/cloud-web-project/overview
+Hosting URL: https://cloud-web-project.web.app
